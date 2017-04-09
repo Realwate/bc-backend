@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yonyou.nc.bc.dao.DocumentMapper" >
+  <resultMap id="BaseResultMap" type="com.yonyou.nc.bc.entity.Document" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="overview" property="overview" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="nodeId" property="nodeid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, overview, detail, nodeId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from document
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from document
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.yonyou.nc.bc.entity.Document" >
+    insert into document (id, overview, detail, 
+      nodeId)
+    values (#{id,jdbcType=VARCHAR}, #{overview,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      #{nodeid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yonyou.nc.bc.entity.Document" >
+    insert into document
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="overview != null" >
+        overview,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="nodeid != null" >
+        nodeId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="overview != null" >
+        #{overview,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeid != null" >
+        #{nodeid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yonyou.nc.bc.entity.Document" >
+    update document
+    <set >
+      <if test="overview != null" >
+        overview = #{overview,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeid != null" >
+        nodeId = #{nodeid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yonyou.nc.bc.entity.Document" >
+    update document
+    set overview = #{overview,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      nodeId = #{nodeid,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

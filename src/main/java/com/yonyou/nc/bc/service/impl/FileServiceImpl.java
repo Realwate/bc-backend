@@ -28,11 +28,11 @@ public class FileServiceImpl implements IFileService{
 	@Resource
 	private DocumentMapper documentDao;
 	
-	public String addFile(String path,String fileName,String documentid){
+	public String addFile(String path,String fileName,String documentid,Integer type){
 		FileEntity fileEntity = new FileEntity();
 		fileEntity.setId(RandomUtil.getUUID());
 		fileEntity.setFilename(fileName);
-		
+		fileEntity.setType(type);
 		fileEntity.setPath(path);
 		fileEntity.setDocumentid(documentid);
 		fileDao.insert(fileEntity);

@@ -9,6 +9,9 @@ public class FileEntity {
 
     private String documentid;
 
+//    文件类型    1原型图      2详细
+    private Integer type;
+
     public String getId() {
         return id;
     }
@@ -39,5 +42,13 @@ public class FileEntity {
 
     public void setDocumentid(String documentid) {
         this.documentid = documentid == null ? null : documentid.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

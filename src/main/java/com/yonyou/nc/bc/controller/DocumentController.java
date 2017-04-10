@@ -11,15 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.yonyou.nc.bc.dto.DocumentDto;
+import com.yonyou.nc.bc.dto.FileDto;
+import com.yonyou.nc.bc.entity.Document;
 import com.yonyou.nc.bc.entity.FileEntity;
 import com.yonyou.nc.bc.service.IDocumentService;
 import com.yonyou.nc.bc.service.IFileService;
@@ -52,11 +57,26 @@ public class DocumentController {
 	    	 return JsonUtil.jsonFormatSuccess(documentDto);
 		}
 	    
+	    //添加document描述
+	    @PutMapping(value={"/document/{documentId}"},produces="application/json;charset=UTF-8")
+	  		public String updateDocument(@PathVariable String documentId,
+	  				@RequestBody Document doc) {
+	    	
+	    	    doc.setId(documentId);
+	  	    	documentService.updateDocument(doc);
+	  	    	
+	  	    	 return JsonUtil.jsonFormatSuccess(doc);
+	  		}
+	    
 	    
 	    /*---- document对应的file ----*/
-	    
+	    ///文件上传
 	    @PostMapping(value={"/document/{documentId}/file"},produces="application/json;charset=UTF-8")
-	    public String fileUpload(@PathVariable String documentId,HttpServletRequest request,@RequestParam("file") MultipartFile file) {  
+	    public String fileUpload(@PathVariable String documentId,
+	    		@RequestParam(value="type") Integer type,
+	    		HttpServletRequest request,@RequestParam("file") MultipartFile file) {  
+	    	String fileId =null;
+	    	FileDto fileDto = null;
 	        // 判断文件是否为空  
 	        if (!file.isEmpty()) {  
 	            try {     	
@@ -67,18 +87,20 @@ public class DocumentController {
 	                // 转存文件  
 	                file.transferTo(new File(filePath));  
 	                
-	                String fileId = fileService.addFile(filePath,file.getOriginalFilename(),documentId);
+	                fileId = fileService.addFile(filePath,file.getOriginalFilename(),documentId,type);
 	                
+	                fileDto = new FileDto(documentId,fileId,file.getOriginalFilename());
 	            } catch (Exception e) {  
 	                e.printStackTrace();  
 	            }  
 	        }  
-	        return JsonUtil.jsonFormatSuccess("");
+	        return JsonUtil.jsonFormatSuccess(fileDto);
 	    }  
 	    
-	    //根据fileId获得文件
+	    //根据fileId 下载文件
 	    @GetMapping("/document/{documentId}/file/{fileId}")  
-	    public void getFileById(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileId) {  
+	    public void getFileById(HttpServletRequest request, HttpServletResponse response,
+	    		@PathVariable String fileId) {  
 	       
 	    	FileEntity fileEntity = fileService.getFileById(fileId);
 	    	File file =  new File(fileEntity.getPath());
@@ -87,8 +109,8 @@ public class DocumentController {
 	    		return;
 	    	}
 
-	    	response.setContentType("application/octet-stream");
-	    	response.addHeader("Content-Disposition", "attachment; filename="+fileEntity.getFilename());
+//	    	response.setContentType("application/octet-stream");
+//	    	response.addHeader("Content-Disposition", "attachment; filename="+fileEntity.getFilename());
 	    	
 	    	FileInputStream fileInputStream = null;
 	    	OutputStream outputStream = null;
@@ -114,12 +136,16 @@ public class DocumentController {
 					e2.printStackTrace();
 				}
 			}
-	    	
-	    	
-	    	
-	    	
+
 	    }  
 	 
+	    //根据fileId 下载文件
+	    @DeleteMapping("/document/{documentId}/file/{fileId}")  
+	    public String deleteFileById(@PathVariable String fileId) {  
+
+         documentService.deleteFileById(fileId);	    
+         return JsonUtil.jsonFormatSuccess("");
+	    }  
 	    
-	}  
+}  
 

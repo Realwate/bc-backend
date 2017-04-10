@@ -6,10 +6,18 @@
     <result column="path" property="path" jdbcType="VARCHAR" />
     <result column="fileName" property="filename" jdbcType="VARCHAR" />
     <result column="documentId" property="documentid" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, path, fileName, documentId
+    id, path, fileName, documentId, type
   </sql>
+  <select id="getFileByDocumentIdAndType" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from file
+    where documentId = #{documentId,jdbcType=VARCHAR}
+    and type = #{type,jdbcType=INTEGER}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -22,9 +30,9 @@
   </delete>
   <insert id="insert" parameterType="com.yonyou.nc.bc.entity.FileEntity" >
     insert into file (id, path, fileName, 
-      documentId)
+      documentId, type)
     values (#{id,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{filename,jdbcType=VARCHAR}, 
-      #{documentid,jdbcType=VARCHAR})
+      #{documentid,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yonyou.nc.bc.entity.FileEntity" >
     insert into file
@@ -41,6 +49,9 @@
       <if test="documentid != null" >
         documentId,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -54,6 +65,9 @@
       </if>
       <if test="documentid != null" >
         #{documentid,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -69,6 +83,9 @@
       <if test="documentid != null" >
         documentId = #{documentid,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -76,7 +93,8 @@
     update file
     set path = #{path,jdbcType=VARCHAR},
       fileName = #{filename,jdbcType=VARCHAR},
-      documentId = #{documentid,jdbcType=VARCHAR}
+      documentId = #{documentid,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

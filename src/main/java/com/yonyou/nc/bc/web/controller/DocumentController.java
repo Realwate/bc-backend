@@ -1,4 +1,4 @@
-package com.yonyou.nc.bc.controller;
+package com.yonyou.nc.bc.web.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ import com.yonyou.nc.bc.util.JsonUtil;
 import com.yonyou.nc.bc.util.RandomUtil;
 
 @RestController  //自动添加responsebody 
-@RequestMapping("/api")
+@RequestMapping("/api/document")
 public class DocumentController {
 	
 	private static final Logger logger = Logger.getLogger(DocumentController.class);
@@ -48,17 +48,14 @@ public class DocumentController {
 		 private IFileService fileService;
 		
 	    
-	    @GetMapping(value={"/document/{documentId}"},produces="application/json;charset=UTF-8")
+	    @GetMapping(value={"/{documentId}"},produces="application/json;charset=UTF-8")
 		public String getDocumentById(@PathVariable String documentId) {
-	    	
 	    	DocumentDto documentDto = documentService.getDocumentById(documentId);
-	    	logger.info("得到documentDTO");
-	    	
 	    	 return JsonUtil.jsonFormatSuccess(documentDto);
 		}
 	    
 	    //添加document描述
-	    @PutMapping(value={"/document/{documentId}"},produces="application/json;charset=UTF-8")
+	    @PutMapping(value={"/{documentId}"},produces="application/json;charset=UTF-8")
 	  		public String updateDocument(@PathVariable String documentId,
 	  				@RequestBody Document doc) {
 	    	
@@ -71,7 +68,7 @@ public class DocumentController {
 	    
 	    /*---- document对应的file ----*/
 	    ///文件上传
-	    @PostMapping(value={"/document/{documentId}/file"},produces="application/json;charset=UTF-8")
+	    @PostMapping(value={"/{documentId}/file"},produces="application/json;charset=UTF-8")
 	    public String fileUpload(@PathVariable String documentId,
 	    		@RequestParam(value="type") Integer type,
 	    		HttpServletRequest request,@RequestParam("file") MultipartFile file) {  
@@ -98,7 +95,7 @@ public class DocumentController {
 	    }  
 	    
 	    //根据fileId 下载文件
-	    @GetMapping("/document/{documentId}/file/{fileId}")  
+	    @GetMapping("/{documentId}/file/{fileId}")  
 	    public void getFileById(HttpServletRequest request, HttpServletResponse response,
 	    		@PathVariable String fileId) {  
 	       
@@ -140,7 +137,7 @@ public class DocumentController {
 	    }  
 	 
 	    //根据fileId 下载文件
-	    @DeleteMapping("/document/{documentId}/file/{fileId}")  
+	    @DeleteMapping("/{documentId}/file/{fileId}")  
 	    public String deleteFileById(@PathVariable String fileId) {  
 
          documentService.deleteFileById(fileId);	    

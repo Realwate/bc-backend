@@ -4,7 +4,7 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
-  
+
   <!-- Spring和mybatis的配置文件 -->  
     <context-param>  
         <param-name>contextConfigLocation</param-name>  
@@ -14,14 +14,18 @@
     <!-- 自定义cors filter -->
     <filter>
 	  <filter-name>cors</filter-name>
-	  <filter-class>com.yonyou.nc.bc.filter.CORSFilter</filter-class>
+	  <filter-class>com.yonyou.nc.bc.web.filter.CORSFilter</filter-class>
 	</filter>
 	  
 	<filter-mapping>
 	  <filter-name>cors</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
-     
+	
+	<!-- log4j环境变量设置 -->
+     <listener>  
+    <listener-class>com.yonyou.nc.bc.web.listener.ContextListener</listener-class>  
+</listener> 
      
     <!-- 编码过滤器 -->  
     <filter>  
@@ -47,7 +51,7 @@
     </listener>  
   
     <!-- Spring MVC servlet -->  
-    <servlet>  
+<!--      <servlet>  
         <servlet-name>SpringMVC</servlet-name>  
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>  
         <init-param>  
@@ -59,11 +63,21 @@
     </servlet>  
     <servlet-mapping>  
         <servlet-name>SpringMVC</servlet-name>  
-        <!-- 此处可以可以配置成*.do，对应struts的后缀习惯 -->  
+        <url-pattern>/</url-pattern>  
+    </servlet-mapping>   --> 
+    
+     <servlet> <!-- 继承 DispatcherServlet 没有映射返回默认spa -->
+     <servlet-name>SpringMVC</servlet-name>  
+        <servlet-class>com.yonyou.nc.bc.web.servlet.MyDispatcherServlet</servlet-class>  
+        <init-param>  
+            <param-name>contextConfigLocation</param-name>  
+            <param-value>classpath:spring/spring-mvc.xml</param-value>  
+        </init-param>  
+        <load-on-startup>1</load-on-startup>  
+    </servlet>  
+    <servlet-mapping>  
+        <servlet-name>SpringMVC</servlet-name>  
         <url-pattern>/</url-pattern>  
     </servlet-mapping>  
-    <welcome-file-list>  
-        <welcome-file>/index.jsp</welcome-file>  
-    </welcome-file-list>  
-  
+
 </web-app>

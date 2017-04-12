@@ -1,4 +1,4 @@
-package com.yonyou.nc.bc.controller;
+package com.yonyou.nc.bc.web.controller;
 
 import java.util.List;
 

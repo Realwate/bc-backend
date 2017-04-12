@@ -1,4 +1,4 @@
-package com.yonyou.nc.bc.controller;
+package com.yonyou.nc.bc.web.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.yonyou.nc.bc.dto.NodeDto;
 import com.yonyou.nc.bc.entity.Node;
 import com.yonyou.nc.bc.entity.NodeInfo;
 import com.yonyou.nc.bc.service.INodeService;
@@ -31,12 +30,13 @@ public class NodeController {
 	    @Resource  
 	    private INodeService nodeService;  
 	    
+ 
 	    @GetMapping(value={"/nodeInfo"},produces="application/json;charset=UTF-8")
-	  		public String getAllNodeInfo() {
-	  	    	List<NodeInfo> allNodeInfoData = nodeService.getAllNodeInfo();
-	  	    	logger.info("得到所有NodeInfo");
-	  	    	 return JsonUtil.jsonFormatSuccess(allNodeInfoData);
-	  		}
+  		public String getNodeInfoByProductId(@RequestParam Integer productId) {
+  	    	List<NodeInfo> nodeInfoData = nodeService.getNodeInfoByProductId(productId);
+  	    	logger.info("得到指定NodeInfo");
+  	    	 return JsonUtil.jsonFormatSuccess(nodeInfoData);
+  		}
 	    
 	    @GetMapping(value={"/node"},produces="application/json;charset=UTF-8")
 		public String getNodeByProductId(@RequestParam(value = "productId", required = false, defaultValue = "") 

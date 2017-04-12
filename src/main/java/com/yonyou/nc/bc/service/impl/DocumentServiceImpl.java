@@ -64,8 +64,7 @@ public class DocumentServiceImpl implements IDocumentService{
 	}
 
     public void deleteFileById(String fileId){
-    	fileDao.deleteByPrimaryKey(fileId);
-    	
+    	 fileDao.deleteByPrimaryKey(fileId);
     }
     public void updateDocument(Document doc){
     	documentDao.updateByPrimaryKeySelective(doc);

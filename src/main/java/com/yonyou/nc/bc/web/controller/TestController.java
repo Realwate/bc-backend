@@ -1,32 +1,20 @@
-package com.yonyou.nc.bc.controller;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
+package com.yonyou.nc.bc.web.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.yonyou.nc.bc.entity.User;
-import com.yonyou.nc.bc.service.IUserService;
-
-@Controller
 public class TestController {
 
 	/** 日志实例 */
 	private static final Logger logger = Logger.getLogger(TestController.class);
 
-//	@RequestMapping(value = "/hello", produces = "text/plain;charset=UTF-8")
-//	public @ResponseBody
-//	String hello() {
-//		return "你好！hello";
-//	}
+	public String  hello() {
+		logger.info("return default index");
+		return "test";
+	}
 //
 //	@RequestMapping(value = "/say/{msg}", produces = "application/json;charset=UTF-8")
 //	public @ResponseBody

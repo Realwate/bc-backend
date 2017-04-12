@@ -21,6 +21,13 @@
   
     <dependencies>  
     
+    <!-- aspect支持 -->
+    <dependency>  
+        <groupId>org.aspectj</groupId>  
+        <artifactId>aspectjweaver</artifactId>  
+        <version>1.7.2</version>  
+    </dependency>  
+    
     <!-- cors支持 -->
 	<dependency>
 	    <groupId>com.thetransactioncompany</groupId>

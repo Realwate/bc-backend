@@ -1,4 +1,4 @@
-package com.yonyou.nc.bc.filter;
+package com.yonyou.nc.bc.web.filter;
 
 import java.io.IOException;
 
@@ -10,11 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.yonyou.nc.bc.controller.UserController;
-
 
 public class CORSFilter extends OncePerRequestFilter {
-	private static final Logger LOG = Logger.getLogger(UserController.class);
+	private static final Logger LOG = Logger.getLogger(OncePerRequestFilter.class);
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 
 <beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:aop="http://www.springframework.org/schema/aop" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"  
     xmlns:context="http://www.springframework.org/schema/context"  
     xmlns:mvc="http://www.springframework.org/schema/mvc"  
@@ -9,23 +10,48 @@
                         http://www.springframework.org/schema/context    
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd    
                         http://www.springframework.org/schema/mvc    
-                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">  
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+                        http://www.springframework.org/schema/aop   
+           http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">  
                         
     <!-- 注解驱动 -->
 	<mvc:annotation-driven />
 	
     <!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->  
-    <context:component-scan base-package="com.yonyou.nc.bc.controller" />  
-       <!-- 视图解析 -->
-	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<!-- 返回的视图模型数据需要经过jstl来处理 -->
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView" />
-		<property name="prefix" value="/WEB-INF/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-
+    <context:component-scan base-package="com.yonyou.nc.bc.web.controller" />  
     
+	<!-- 配置静态资源 -->
+	<mvc:resources mapping="/static/**" location="/dist/static/"/>
+	
+	<!-- aop -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>  	
+	<!-- <bean class="com.yonyou.nc.bc.web.intercepter.LogAspect"/>  -->
+	
+	<!-- 全局异常处理 -->
+	<bean id="exceptionResolver" class="com.yonyou.nc.bc.web.handle.ExceptionHandler"/> 
+	
+	
+	
+	<!-- <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">  
+        <property name="order" value="0"/>  
+    </bean>
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>  
+ -->	
+	
+       <!-- 视图解析 -->
+<!--  	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		返回的视图模型数据需要经过jstl来处理
+ 		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/pages/" />
+		<property name="suffix" value=".jsp" />
+	</bean>  -->
+<!-- 	<bean  
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">  
+        <property name="prefix" value="/WEB-INF/pages/" />  
+        <property name="suffix" value=".jsp" />  
+    </bean>    -->
+
     
     <!--JSON支持 -->  
 <!--   <bean id="jsonConverter"  

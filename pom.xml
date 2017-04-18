@@ -28,17 +28,6 @@
         <version>1.7.2</version>  
     </dependency>  
     
-    <!-- cors支持 -->
-	<dependency>
-	    <groupId>com.thetransactioncompany</groupId>
-	    <artifactId>cors-filter</artifactId>
-	    <version>2.1.2</version>
-	</dependency>
-	<dependency>
-	  <groupId>com.thetransactioncompany</groupId>
-	  <artifactId>java-property-utils</artifactId>
-	  <version>1.9.1</version>
-	</dependency>
 	
 	
 <!--        <dependency>
@@ -46,6 +35,11 @@
 		    <artifactId>ojdbc6</artifactId>
 		    <version>11.1.0.7.0</version>
 		</dependency> -->
+<dependency>
+ <groupId>com.oracle</groupId>
+ <artifactId>ojdbc6</artifactId>
+ <version>11.2.0.2.0</version>
+</dependency>
 
         <dependency>  
             <groupId>junit</groupId>  
@@ -124,10 +118,11 @@
             <version>1.2.2</version>  
         </dependency>  
         <!-- 导入java ee jar 包 -->  
-        <dependency>  
+       <dependency>  
             <groupId>javax</groupId>  
             <artifactId>javaee-api</artifactId>  
             <version>7.0</version>  
+           <scope>provided</scope>
         </dependency>  
         <!-- 导入Mysql数据库链接jar包 -->  
         <dependency>  
@@ -141,12 +136,8 @@
             <artifactId>commons-dbcp</artifactId>  
             <version>1.2.2</version>  
         </dependency>  
-        <!-- JSTL标签类 -->  
-        <dependency>  
-            <groupId>jstl</groupId>  
-            <artifactId>jstl</artifactId>  
-            <version>1.2</version>  
-        </dependency>  
+    
+    
         <!-- 日志文件管理包 -->  
         <!-- log start -->  
         <dependency>  
@@ -162,18 +153,6 @@
             <version>1.1.41</version>  
         </dependency>  
   
-        <dependency>  
-            <groupId>org.slf4j</groupId>  
-            <artifactId>slf4j-api</artifactId>  
-            <version>${slf4j.version}</version>  
-        </dependency>  
-  
-        <dependency>  
-            <groupId>org.slf4j</groupId>  
-            <artifactId>slf4j-log4j12</artifactId>  
-            <version>${slf4j.version}</version>  
-        </dependency>  
-        <!-- log end -->  
         
         <!-- 上传组件包 -->  
         <dependency>  
@@ -191,8 +170,7 @@
             <artifactId>commons-codec</artifactId>  
             <version>1.9</version>  
         </dependency>  
-          
-          
+                   
     </dependencies>  
   
   

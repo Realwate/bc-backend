@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.yonyou.nc.bc.entity.NodeInfo" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="nodeId" property="nodeid" jdbcType="VARCHAR" />
-    <result column="requirementFlag" property="requirementflag" jdbcType="TINYINT" />
-    <result column="developFlag" property="developflag" jdbcType="TINYINT" />
-    <result column="testFlag" property="testflag" jdbcType="TINYINT" />
+    <result column="requirementFlag" property="requirementflag" jdbcType="INTEGER" />
+    <result column="developFlag" property="developflag" jdbcType="INTEGER" />
+    <result column="testFlag" property="testflag" jdbcType="INTEGER" />
     <result column="boss" property="boss" jdbcType="VARCHAR" />
     <result column="documentId" property="documentid" jdbcType="VARCHAR" />
     <result column="productId" property="productid" jdbcType="INTEGER" />
@@ -14,7 +14,6 @@
   <sql id="Base_Column_List" >
     id, nodeId, requirementFlag, developFlag, testFlag, boss, documentId, productId
   </sql>
-  
     <delete id="deleteByNodeId" parameterType="java.lang.String" >
     delete from nodeinfo
     where nodeid = #{nodeId,jdbcType=VARCHAR}
@@ -44,8 +43,8 @@
     insert into nodeinfo (id, nodeId, requirementFlag, 
       developFlag, testFlag, boss, 
       documentId, productId)
-    values (#{id,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, #{requirementflag,jdbcType=TINYINT}, 
-      #{developflag,jdbcType=TINYINT}, #{testflag,jdbcType=TINYINT}, #{boss,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, #{requirementflag,jdbcType=INTEGER}, 
+      #{developflag,jdbcType=INTEGER}, #{testflag,jdbcType=INTEGER}, #{boss,jdbcType=VARCHAR}, 
       #{documentid,jdbcType=VARCHAR}, #{productid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yonyou.nc.bc.entity.NodeInfo" >
@@ -84,13 +83,13 @@
         #{nodeid,jdbcType=VARCHAR},
       </if>
       <if test="requirementflag != null" >
-        #{requirementflag,jdbcType=TINYINT},
+        #{requirementflag,jdbcType=INTEGER},
       </if>
       <if test="developflag != null" >
-        #{developflag,jdbcType=TINYINT},
+        #{developflag,jdbcType=INTEGER},
       </if>
       <if test="testflag != null" >
-        #{testflag,jdbcType=TINYINT},
+        #{testflag,jdbcType=INTEGER},
       </if>
       <if test="boss != null" >
         #{boss,jdbcType=VARCHAR},
@@ -110,13 +109,13 @@
         nodeId = #{nodeid,jdbcType=VARCHAR},
       </if>
       <if test="requirementflag != null" >
-        requirementFlag = #{requirementflag,jdbcType=TINYINT},
+        requirementFlag = #{requirementflag,jdbcType=INTEGER},
       </if>
       <if test="developflag != null" >
-        developFlag = #{developflag,jdbcType=TINYINT},
+        developFlag = #{developflag,jdbcType=INTEGER},
       </if>
       <if test="testflag != null" >
-        testFlag = #{testflag,jdbcType=TINYINT},
+        testFlag = #{testflag,jdbcType=INTEGER},
       </if>
       <if test="boss != null" >
         boss = #{boss,jdbcType=VARCHAR},
@@ -133,9 +132,9 @@
   <update id="updateByPrimaryKey" parameterType="com.yonyou.nc.bc.entity.NodeInfo" >
     update nodeinfo
     set nodeId = #{nodeid,jdbcType=VARCHAR},
-      requirementFlag = #{requirementflag,jdbcType=TINYINT},
-      developFlag = #{developflag,jdbcType=TINYINT},
-      testFlag = #{testflag,jdbcType=TINYINT},
+      requirementFlag = #{requirementflag,jdbcType=INTEGER},
+      developFlag = #{developflag,jdbcType=INTEGER},
+      testFlag = #{testflag,jdbcType=INTEGER},
       boss = #{boss,jdbcType=VARCHAR},
       documentId = #{documentid,jdbcType=VARCHAR},
       productId = #{productid,jdbcType=INTEGER}

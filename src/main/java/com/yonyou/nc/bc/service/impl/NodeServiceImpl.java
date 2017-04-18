@@ -44,35 +44,37 @@ public class NodeServiceImpl implements INodeService{
 	
 //	添加结点 如果是三级节点 添加nodeinfo
 	//nodeInfo m默认添加document
-	@Transactional
+	@SuppressWarnings("unused")
 	public void addNode(Node node){
 		
 		Node parent = nodeDao.selectByPrimaryKey(node.getParentid());
 		node.setId(RandomUtil.getUUID());
-		node.setLevel(1);
+		node.setNodelevel(1);
 		if(parent!=null){
-		  node.setLevel(parent.getLevel()+1);
+		  node.setNodelevel(parent.getNodelevel()+1);
 		  node.setParentid(parent.getId());
 		}
 		nodeDao.insertSelective(node);
 		
-		if(node.getLevel() == 3){
+		//int a = 1/0;  //测试 事务
+		
+		if(node.getNodelevel() == 3){
 			//插入空文档
 			Document doc = new Document();
 			doc.setId(RandomUtil.getUUID());
 			doc.setNodeid(node.getId());
 			documentDao.insertSelective(doc);
 			
-//			int a = 1/0;  //测试 事务
+			
 			//添加Info
 			NodeInfo info = new NodeInfo();
 			info.setProductid(node.getProductid());
 			info.setId(RandomUtil.getUUID());
 			info.setDocumentid(doc.getId());
 			info.setNodeid(node.getId());
-			info.setDevelopflag((byte) 0);
-			info.setRequirementflag((byte) 0);
-			info.setTestflag((byte) 0);
+			info.setDevelopflag(0);
+			info.setRequirementflag(0);
+			info.setTestflag(0);
 			nodeInfoDao.insertSelective(info);
 		}
 		
@@ -86,7 +88,7 @@ public class NodeServiceImpl implements INodeService{
 	public void deleteNode(String id){
 		//删除结点
 		Node node = nodeDao.selectByPrimaryKey(id);
-		if(node.getLevel()==3){
+		if(node.getNodelevel()==3){
 			nodeInfoDao.deleteByNodeId(id);
 		}
 		nodeDao.deleteByPrimaryKey(id);
@@ -132,7 +134,7 @@ public class NodeServiceImpl implements INodeService{
 		for(NodeDto dto : list){
 			List<NodeDto> children = getChildNodes(dto.getId(),nodeList);
 			
-//			if(children.size() == 0 && dto.getLevel() ==3){//leaf node 设置nodeinfo
+//			if(children.size() == 0 && dto.getNodelevel() ==3){//leaf node 设置nodeinfo
 //				dto.setNodeInfo(mapNodeInfo.get(dto.getId()));
 //			}
 				

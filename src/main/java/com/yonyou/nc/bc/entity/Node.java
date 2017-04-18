@@ -9,7 +9,7 @@ public class Node {
 
     private Integer productid;
 
-    private Integer level;
+    private Integer nodelevel;
 
     public String getId() {
         return id;
@@ -43,11 +43,11 @@ public class Node {
         this.productid = productid;
     }
 
-    public Integer getLevel() {
-        return level;
+    public Integer getNodelevel() {
+        return nodelevel;
     }
 
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setNodelevel(Integer nodelevel) {
+        this.nodelevel = nodelevel;
     }
 }

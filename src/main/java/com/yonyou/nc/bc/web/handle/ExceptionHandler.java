@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yonyou.nc.bc.util.JsonUtil;
+
 //全局异常处理
 public class ExceptionHandler implements HandlerExceptionResolver{
 
@@ -27,7 +29,16 @@ public class ExceptionHandler implements HandlerExceptionResolver{
             ex.printStackTrace(pw);
             pw.flush();
             sw.flush();
-        } finally {
+            //异常统一返回处理
+            response.setContentType("application/json;charset=UTF-8");
+             PrintWriter writer = response.getWriter();
+             writer.write(JsonUtil.jsonFormatError(500, "服务器异常"));
+             writer.close();
+             
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             if (sw != null) {
                 try {
                     sw.close();
@@ -42,6 +53,10 @@ public class ExceptionHandler implements HandlerExceptionResolver{
         
         logger.error(sw.toString());
 		return null;
+	}
+	private void write(String string) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

@@ -68,7 +68,7 @@ public class NodeDto {
 		this.label = node.getLabel();
 		this.productid = node.getProductid();
 		this.parentid = node.getParentid();
-		this.setLevel(node.getLevel());
+		this.setLevel(node.getNodelevel());
 	}
 	
 

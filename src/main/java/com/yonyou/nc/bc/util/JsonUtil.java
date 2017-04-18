@@ -11,11 +11,11 @@ import com.yonyou.nc.bc.dto.ErrorMsg;
 public class JsonUtil {
 
 	//{error:{message:""},data:{}}
-	public static <T> String jsonFormatError(int statusCode,String content,T t){
+	public static <T> String jsonFormatError(int statusCode,String content){
 		JSONObject json = new JSONObject();
 		ErrorMsg msg = new ErrorMsg(content,statusCode);
 		json.put("error",msg);
-		json.put("data",t);
+//		json.put("data",t);
 		return json.toString();
 	}
 	public static <T> String jsonFormatSuccess(T t){

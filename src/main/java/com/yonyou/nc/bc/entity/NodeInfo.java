@@ -5,11 +5,11 @@ public class NodeInfo {
 
     private String nodeid;
 
-    private Byte requirementflag;
+    private Integer requirementflag;
 
-    private Byte developflag;
+    private Integer developflag;
 
-    private Byte testflag;
+    private Integer testflag;
 
     private String boss;
 
@@ -33,31 +33,32 @@ public class NodeInfo {
         this.nodeid = nodeid == null ? null : nodeid.trim();
     }
 
-    public Byte getRequirementflag() {
-        return requirementflag;
-    }
+   
+    public Integer getRequirementflag() {
+		return requirementflag;
+	}
 
-    public void setRequirementflag(Byte requirementflag) {
-        this.requirementflag = requirementflag;
-    }
+	public void setRequirementflag(Integer requirementflag) {
+		this.requirementflag = requirementflag;
+	}
 
-    public Byte getDevelopflag() {
-        return developflag;
-    }
+	public Integer getDevelopflag() {
+		return developflag;
+	}
 
-    public void setDevelopflag(Byte developflag) {
-        this.developflag = developflag;
-    }
+	public void setDevelopflag(Integer developflag) {
+		this.developflag = developflag;
+	}
 
-    public Byte getTestflag() {
-        return testflag;
-    }
+	public Integer getTestflag() {
+		return testflag;
+	}
 
-    public void setTestflag(Byte testflag) {
-        this.testflag = testflag;
-    }
+	public void setTestflag(Integer testflag) {
+		this.testflag = testflag;
+	}
 
-    public String getBoss() {
+	public String getBoss() {
         return boss;
     }
 

@@ -86,13 +86,26 @@ public class NodeServiceImpl implements INodeService{
 	
 	//删除结点 
 	public void deleteNode(String id){
-		//删除结点
-		Node node = nodeDao.selectByPrimaryKey(id);
-		if(node.getNodelevel()==3){
-			nodeInfoDao.deleteByNodeId(id);
+		//需要递归删除 node nodeinfo表
+		List<String> allNodeId = new ArrayList<String>();
+		allNodeId.add(id);
+		
+		List<Node> list = nodeDao.getNodeListByParentId(id);
+		getAllChildren(list,allNodeId);
+		
+		nodeDao.deleteList(allNodeId);
+		nodeInfoDao.deleteListByNodeId(allNodeId);
+		
+	}
+	public void getAllChildren(List<Node> list,List<String> allNodeId){
+		if(list == null){
+			return;
 		}
-		nodeDao.deleteByPrimaryKey(id);
-		//
+		for(Node node : list){
+			allNodeId.add(node.getId());
+			List<Node> curList = nodeDao.getNodeListByParentId(node.getId());
+			getAllChildren(curList,allNodeId);
+		}
 	}
 
 	//得到全部nodeinfo

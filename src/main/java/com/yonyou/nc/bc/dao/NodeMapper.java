@@ -17,4 +17,6 @@ public interface NodeMapper {
 
     int updateByPrimaryKey(Node record);
 	 List<Node> getNodeListByProductId(Integer productId);
+	 List<Node> getNodeListByParentId(String parentId);
+	 int deleteList(List<String> id);
 }

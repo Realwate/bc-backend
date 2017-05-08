@@ -11,12 +11,24 @@
   <sql id="Base_Column_List" >
     id, parentid, label, productid, nodelevel
   </sql>
-
+  <!-- 批量删除node -->
+   <delete id="deleteList" parameterType="java.lang.String">
+        delete from node where id in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+ <select id="getNodeListByParentId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from node
+    where parentid = #{parentId,jdbcType=INTEGER}
+  </select>
    <select id="getNodeListByProductId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from node
-    where productId = #{productId,jdbcType=INTEGER}
+    where productid = #{productId,jdbcType=INTEGER}
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -19,4 +19,7 @@ public interface NodeInfoMapper {
 	List<NodeInfo> getAllNodeInfo();
 	List<NodeInfo> getNodeInfoByProductId(Integer productId);
 	int deleteByNodeId(String nodeId);
+	
+	int deleteListByNodeId(List<String> nodeId);
+	
 }

@@ -14,6 +14,13 @@
   <sql id="Base_Column_List" >
     id, nodeId, requirementFlag, developFlag, testFlag, boss, documentId, productId
   </sql>
+  <!-- 批量删除node -->
+   <delete id="deleteListByNodeId" parameterType="java.lang.String">
+        delete from nodeinfo where nodeid in
+        <foreach item="item" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
     <delete id="deleteByNodeId" parameterType="java.lang.String" >
     delete from nodeinfo
     where nodeid = #{nodeId,jdbcType=VARCHAR}

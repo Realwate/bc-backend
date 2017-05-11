@@ -21,10 +21,7 @@
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
-	<!-- log4j环境变量设置 -->
-     <listener>  
-    <listener-class>com.yonyou.nc.bc.web.listener.ContextListener</listener-class>  
-</listener> 
+	
      
     <!-- 编码过滤器 -->  
     <filter>  
@@ -49,7 +46,11 @@
     <listener>  
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
     </listener>  
-  
+  <!-- log4j环境变量设置 -->
+     <listener>  
+       <listener-class>com.yonyou.nc.bc.web.listener.ContextListener</listener-class>  
+     </listener> 
+
      <servlet> <!-- 继承 DispatcherServlet 没有映射返回默认spa -->
      <servlet-name>SpringMVC</servlet-name>  
         <servlet-class>com.yonyou.nc.bc.web.servlet.MyDispatcherServlet</servlet-class>  

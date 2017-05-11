@@ -79,16 +79,18 @@ public class DocumentController {
 	            try {     	
 	                // 文件保存路径  
 	                String filePath = 
-	                		RandomUtil.getFormatPath(request.getServletContext());
+	                		RandomUtil.getFormatPath();
 	                		
 	                // 转存文件  
 	                file.transferTo(new File(filePath));  
-	                
 	                fileId = fileService.addFile(filePath,file.getOriginalFilename(),documentId,type);
 	                
+	                logger.info(filePath+"文件上传成功 ");
 	                fileDto = new FileDto(documentId,fileId,file.getOriginalFilename());
 	            } catch (Exception e) {  
+	            	logger.error(e.getMessage());
 	                e.printStackTrace();  
+	                return JsonUtil.jsonFormatError(500, "上传失败！");
 	            }  
 	        }  
 	        return JsonUtil.jsonFormatSuccess(fileDto);
@@ -119,9 +121,10 @@ public class DocumentController {
 		    	outputStream = response.getOutputStream();
 		    	outputStream.write(by);
 			} catch (FileNotFoundException e) {
+				logger.error(e.getMessage());
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				logger.error(e.getMessage());
 				e.printStackTrace();
 			}
 			finally{
@@ -136,7 +139,7 @@ public class DocumentController {
 
 	    }  
 	 
-	    //根据fileId 下载文件
+	    
 	    @DeleteMapping("/{documentId}/file/{fileId}")  
 	    public String deleteFileById(@PathVariable String fileId) {  
 

@@ -12,7 +12,9 @@ public class DocumentDto {
 	private List<FileDto> prototypeImgList;
 	private List<FileDto> detailImgList;
 	
-	
+	public DocumentDto(){
+		
+	}
 	public DocumentDto(Document document, Node node) {
 		super();
 		this.document = document;

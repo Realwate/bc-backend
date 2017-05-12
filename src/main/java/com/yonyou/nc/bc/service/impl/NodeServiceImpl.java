@@ -47,12 +47,17 @@ public class NodeServiceImpl implements INodeService{
 	@SuppressWarnings("unused")
 	public void addNode(Node node){
 		
-		Node parent = nodeDao.selectByPrimaryKey(node.getParentid());
 		node.setId(RandomUtil.getUUID());
-		node.setNodelevel(1);
-		if(parent!=null){
-		  node.setNodelevel(parent.getNodelevel()+1);
-		  node.setParentid(parent.getId());
+		if(node.getNodelevel() == null){
+			node.setNodelevel(1);	
+		}
+		
+		Node parent = nodeDao.selectByPrimaryKey(node.getParentid());
+		if(parent == null){
+			node.setParentid(null);
+		}
+		else{
+			node.setNodelevel(parent.getNodelevel()+1);
 		}
 		nodeDao.insertSelective(node);
 		
@@ -174,6 +179,22 @@ public class NodeServiceImpl implements INodeService{
 	    List<NodeInfo> nodeList = nodeInfoDao.getNodeInfoByProductId(productId);
 		return nodeList;
 		
+	}
+	public void deleteNodeInfo(String id) {
+		nodeInfoDao.deleteByPrimaryKey(id);
+	}
+	public void addNodeInfo(NodeInfo info) {
+		
+       
+        //插入空文档
+		Document doc = new Document();
+		doc.setId(RandomUtil.getUUID());
+     	doc.setNodeid(info.getNodeid());  //用户故事 会出现1对多
+		documentDao.insertSelective(doc);
+		
+		info.setId(RandomUtil.getUUID());
+		info.setDocumentid(doc.getId());
+	    nodeInfoDao.insertSelective(info);	
 	}
 
 

@@ -10,11 +10,14 @@
     <result column="boss" property="boss" jdbcType="VARCHAR" />
     <result column="documentId" property="documentid" jdbcType="VARCHAR" />
     <result column="productId" property="productid" jdbcType="INTEGER" />
+    <result column="obj_code" property="objCode" jdbcType="VARCHAR" />
+    <result column="obj_name" property="objName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, nodeId, requirementFlag, developFlag, testFlag, boss, documentId, productId
+    id, nodeId, requirementFlag, developFlag, testFlag, boss, documentId, productId, 
+    obj_code, obj_name
   </sql>
-  <!-- 批量删除node -->
+   <!-- 批量删除node -->
    <delete id="deleteListByNodeId" parameterType="java.lang.String">
         delete from nodeinfo where nodeid in
         <foreach item="item" collection="list" open="(" separator="," close=")">
@@ -49,10 +52,12 @@
   <insert id="insert" parameterType="com.yonyou.nc.bc.entity.NodeInfo" >
     insert into nodeinfo (id, nodeId, requirementFlag, 
       developFlag, testFlag, boss, 
-      documentId, productId)
+      documentId, productId, obj_code, 
+      obj_name)
     values (#{id,jdbcType=VARCHAR}, #{nodeid,jdbcType=VARCHAR}, #{requirementflag,jdbcType=INTEGER}, 
       #{developflag,jdbcType=INTEGER}, #{testflag,jdbcType=INTEGER}, #{boss,jdbcType=VARCHAR}, 
-      #{documentid,jdbcType=VARCHAR}, #{productid,jdbcType=INTEGER})
+      #{documentid,jdbcType=VARCHAR}, #{productid,jdbcType=INTEGER}, #{objCode,jdbcType=VARCHAR}, 
+      #{objName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.yonyou.nc.bc.entity.NodeInfo" >
     insert into nodeinfo
@@ -81,6 +86,12 @@
       <if test="productid != null" >
         productId,
       </if>
+      <if test="objCode != null" >
+        obj_code,
+      </if>
+      <if test="objName != null" >
+        obj_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -106,6 +117,12 @@
       </if>
       <if test="productid != null" >
         #{productid,jdbcType=INTEGER},
+      </if>
+      <if test="objCode != null" >
+        #{objCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objName != null" >
+        #{objName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -133,6 +150,12 @@
       <if test="productid != null" >
         productId = #{productid,jdbcType=INTEGER},
       </if>
+      <if test="objCode != null" >
+        obj_code = #{objCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objName != null" >
+        obj_name = #{objName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -144,7 +167,9 @@
       testFlag = #{testflag,jdbcType=INTEGER},
       boss = #{boss,jdbcType=VARCHAR},
       documentId = #{documentid,jdbcType=VARCHAR},
-      productId = #{productid,jdbcType=INTEGER}
+      productId = #{productid,jdbcType=INTEGER},
+      obj_code = #{objCode,jdbcType=VARCHAR},
+      obj_name = #{objName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

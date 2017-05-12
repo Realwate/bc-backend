@@ -15,6 +15,9 @@ public interface INodeService {
 	public void editNode(Node node);
 	public void deleteNode(String id);
 
+	public void deleteNodeInfo(String id);
+	public void addNodeInfo(NodeInfo info);
+	
 	public List<NodeInfo> getAllNodeInfo();
 	
 	public void updateNodeInfo(NodeInfo info);

@@ -41,13 +41,14 @@ public class DocumentServiceImpl implements IDocumentService{
 	//原型图 详细图
     public DocumentDto getDocumentById(String documentId){
     	Document document = documentDao.selectByPrimaryKey(documentId);
-    	Node node = nodeDao.selectByPrimaryKey(document.getNodeid());
+//    	Node node = nodeDao.selectByPrimaryKey(document.getNodeid());
     	
     	 List<FileEntity> prototypeImgList = fileDao.getFileByDocumentIdAndType(documentId, 1);
     	 List<FileEntity> detailImgList = fileDao.getFileByDocumentIdAndType(documentId, 2);
     	
-    	DocumentDto dto = new DocumentDto(document,node);
+    	DocumentDto dto = new DocumentDto();
     	
+    	dto.setDocument(document);
     	dto.setDetailImgList(transform2FileDto(detailImgList));
     	dto.setPrototypeImgList(transform2FileDto(prototypeImgList));
     	

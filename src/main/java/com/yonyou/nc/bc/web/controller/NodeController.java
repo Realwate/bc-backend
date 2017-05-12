@@ -37,6 +37,27 @@ public class NodeController {
   	    	logger.info("得到指定NodeInfo");
   	    	 return JsonUtil.jsonFormatSuccess(nodeInfoData);
   		}
+	    @PutMapping(value={"/nodeInfo"},produces="application/json;charset=UTF-8")
+		public String updateNodeInfo(@RequestBody NodeInfo nodeInfo) {
+	    	nodeService.updateNodeInfo(nodeInfo);
+	    	logger.info("更新nodeinfo数据");
+	    	 return JsonUtil.jsonFormatSuccess(nodeInfo);
+		}
+	    @PostMapping(value={"/nodeInfo"},produces="application/json;charset=UTF-8")
+		public String addNodeInfo(@RequestBody NodeInfo nodeinfo) {
+	    	if(nodeinfo.getNodeid() == null){
+	    		return JsonUtil.jsonFormatError(500,"必须提供所属的结点编号!");
+	    	}
+	    	nodeService.addNodeInfo(nodeinfo);
+	    	logger.info("添加nodeinfo数据");
+	    	 return JsonUtil.jsonFormatSuccess(nodeinfo);
+		}
+	    @DeleteMapping(value="/nodeInfo/{nodeInfoId}",produces="application/json;charset=UTF-8")
+	  		public String deleteNodeInfo(@PathVariable String nodeInfoId) {
+	  	    	nodeService.deleteNodeInfo(nodeInfoId);
+	  	    	logger.info("删除nodeinfo数据");
+	  	    	return JsonUtil.jsonFormatSuccess("");
+	  		}
 	    
 	    @GetMapping(value={"/node"},produces="application/json;charset=UTF-8")
 		public String getNodeByProductId(@RequestParam(value = "productId", required = false, defaultValue = "") 
@@ -60,12 +81,7 @@ public class NodeController {
 	    	logger.info("更新node数据");
 	    	 return JsonUtil.jsonFormatSuccess(node);
 		}
-	    @PutMapping(value={"/nodeInfo"},produces="application/json;charset=UTF-8")
-		public String updateNodeInfo(@RequestBody NodeInfo nodeInfo) {
-	    	nodeService.updateNodeInfo(nodeInfo);
-	    	logger.info("更新nodeinfo数据");
-	    	 return JsonUtil.jsonFormatSuccess(nodeInfo);
-		}
+	   
 	    
 	    @DeleteMapping(value="/node/{nodeId}",produces="application/json;charset=UTF-8")
 		public String deleteNode(@PathVariable String nodeId) {

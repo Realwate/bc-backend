@@ -10,7 +10,10 @@
         <param-name>contextConfigLocation</param-name>  
         <param-value>classpath:spring/spring-mybatis.xml</param-value>  
     </context-param> 
-    
+      <!-- log4j环境变量设置 -->
+     <listener>  
+       <listener-class>com.yonyou.nc.bc.web.listener.ContextListener</listener-class>  
+     </listener> 
     <!-- 自定义cors filter -->
     <filter>
 	  <filter-name>cors</filter-name>
@@ -46,10 +49,6 @@
     <listener>  
         <listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>  
     </listener>  
-  <!-- log4j环境变量设置 -->
-     <listener>  
-       <listener-class>com.yonyou.nc.bc.web.listener.ContextListener</listener-class>  
-     </listener> 
 
      <servlet> <!-- 继承 DispatcherServlet 没有映射返回默认spa -->
      <servlet-name>SpringMVC</servlet-name>  

@@ -64,6 +64,7 @@ public class NodeController {
 		int productId) {
 	    	Map<String, Object> allNodeData = nodeService.getAllNodeData(productId);
 	    	logger.info("得到所有node nodeinfo数据");
+	    	System.out.println(System.getProperty("log4jdir"));
 	    	 return JsonUtil.jsonFormatSuccess(allNodeData);
 		}
 	    

@@ -32,120 +32,118 @@ import com.yonyou.nc.bc.service.INodeService;
 import com.yonyou.nc.bc.util.JsonUtil;
 import com.yonyou.nc.bc.util.RandomUtil;
 
-@RestController  //自动添加responsebody 
+@RestController
+// 自动添加responsebody
 @RequestMapping("/api/document")
 public class DocumentController {
-	
-	private static final Logger logger = Logger.getLogger(DocumentController.class);
-	
-	    @Resource  
-	    private INodeService nodeService;
 
-	    @Resource  
-	    private IDocumentService documentService;
+	private static final Logger logger = Logger
+			.getLogger(DocumentController.class);
 
-		@Resource
-		 private IFileService fileService;
-		
-	    
-	    @GetMapping(value={"/{documentId}"},produces="application/json;charset=UTF-8")
-		public String getDocumentById(@PathVariable String documentId) {
-	    	DocumentDto documentDto = documentService.getDocumentById(documentId);
-	    	 return JsonUtil.jsonFormatSuccess(documentDto);
-		}
-	    
-	    //添加document描述
-	    @PutMapping(value={"/{documentId}"},produces="application/json;charset=UTF-8")
-	  		public String updateDocument(@PathVariable String documentId,
-	  				@RequestBody Document doc) {
-	    	
-	    	    doc.setId(documentId);
-	  	    	documentService.updateDocument(doc);
-	  	    	
-	  	    	 return JsonUtil.jsonFormatSuccess(doc);
-	  		}
-	    
-	    
-	    /*---- document对应的file ----*/
-	    ///文件上传
-	    @PostMapping(value={"/{documentId}/file"},produces="application/json;charset=UTF-8")
-	    public String fileUpload(@PathVariable String documentId,
-	    		@RequestParam(value="type") Integer type,
-	    		HttpServletRequest request,@RequestParam("file") MultipartFile file) {  
-	    	String fileId =null;
-	    	FileDto fileDto = null;
-	        // 判断文件是否为空  
-	        if (!file.isEmpty()) {  
-	            try {     	
-	                // 文件保存路径  
-	                String filePath = 
-	                		RandomUtil.getFormatPath();
-	                		
-	                // 转存文件  
-	                file.transferTo(new File(filePath));  
-	                fileId = fileService.addFile(filePath,file.getOriginalFilename(),documentId,type);
-	                
-	                logger.info(filePath+"文件上传成功 ");
-	                fileDto = new FileDto(documentId,fileId,file.getOriginalFilename());
-	            } catch (Exception e) {  
-	            	logger.error(e.getMessage());
-	                e.printStackTrace();  
-	                return JsonUtil.jsonFormatError(500, "上传失败！");
-	            }  
-	        }  
-	        return JsonUtil.jsonFormatSuccess(fileDto);
-	    }  
-	    
-	    //根据fileId 下载文件
-	    @GetMapping("/{documentId}/file/{fileId}")  
-	    public void getFileById(HttpServletRequest request, HttpServletResponse response,
-	    		@PathVariable String fileId) {  
-	       
-	    	FileEntity fileEntity = fileService.getFileById(fileId);
-	    	File file =  new File(fileEntity.getPath());
-	    	logger.info("获取文件 "+fileEntity.getPath());
-	    	if(!file.exists()){
-	    		return;
-	    	}
+	@Resource
+	private INodeService nodeService;
 
-//	    	response.setContentType("application/octet-stream");
-//	    	response.addHeader("Content-Disposition", "attachment; filename="+fileEntity.getFilename());
-	    	
-	    	FileInputStream fileInputStream = null;
-	    	OutputStream outputStream = null;
+	@Resource
+	private IDocumentService documentService;
+
+	@Resource
+	private IFileService fileService;
+
+	@GetMapping(value = { "/{documentId}" }, produces = "application/json;charset=UTF-8")
+	public String getDocumentById(@PathVariable String documentId) {
+		DocumentDto documentDto = documentService.getDocumentById(documentId);
+		return JsonUtil.jsonFormatSuccess(documentDto);
+	}
+
+	// 添加document描述
+	@PutMapping(value = { "/{documentId}" }, produces = "application/json;charset=UTF-8")
+	public String updateDocument(@PathVariable String documentId,
+			@RequestBody Document doc) {
+
+		doc.setId(documentId);
+		documentService.updateDocument(doc);
+
+		return JsonUtil.jsonFormatSuccess(doc);
+	}
+
+	/*---- document对应的file ----*/
+	// /文件上传
+	@PostMapping(value = { "/{documentId}/file" }, produces = "application/json;charset=UTF-8")
+	public String fileUpload(@PathVariable String documentId,
+			@RequestParam(value = "type") Integer type,
+			HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+		String fileId = null;
+		FileDto fileDto = null;
+		// 判断文件是否为空
+		if (!file.isEmpty()) {
 			try {
-				fileInputStream = new FileInputStream(file);
-				byte[] by  = new byte[fileInputStream.available()];
-		    	fileInputStream.read(by);
-		    	
-		    	outputStream = response.getOutputStream();
-		    	outputStream.write(by);
-			} catch (FileNotFoundException e) {
+				// 文件保存路径
+				String filePath = RandomUtil.getFormatPath();
+
+				// 转存文件
+				file.transferTo(new File(filePath));
+				fileId = fileService.addFile(filePath,
+						file.getOriginalFilename(), documentId, type);
+
+				logger.info(filePath + "文件上传成功 ");
+				fileDto = new FileDto(documentId, fileId,
+						file.getOriginalFilename());
+			} catch (Exception e) {
 				logger.error(e.getMessage());
 				e.printStackTrace();
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-				e.printStackTrace();
+				return JsonUtil.jsonFormatError(500, "上传失败！");
 			}
-			finally{
-				try{
+		}
+		return JsonUtil.jsonFormatSuccess(fileDto);
+	}
+
+	// 根据fileId 下载文件
+	@GetMapping("/{documentId}/file/{fileId}")
+	public void getFileById(HttpServletRequest request,
+			HttpServletResponse response, @PathVariable String fileId) {
+
+		FileEntity fileEntity = fileService.getFileById(fileId);
+		File file = new File(fileEntity.getPath());
+		logger.info("获取文件 " + fileEntity.getPath());
+		if (!file.exists()) {
+			return;
+		}
+
+		// response.setContentType("application/octet-stream");
+		// response.addHeader("Content-Disposition",
+		// "attachment; filename="+fileEntity.getFilename());
+
+		FileInputStream fileInputStream = null;
+		OutputStream outputStream = null;
+		try {
+			fileInputStream = new FileInputStream(file);
+			byte[] by = new byte[fileInputStream.available()];
+			fileInputStream.read(by);
+
+			outputStream = response.getOutputStream();
+			outputStream.write(by);
+		} catch (FileNotFoundException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			try {
 				fileInputStream.close();
-		    	outputStream.close();
-				}
-				catch(Exception e2){
-					e2.printStackTrace();
-				}
+				outputStream.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
 			}
+		}
 
-	    }  
-	 
-	    
-	    @DeleteMapping("/{documentId}/file/{fileId}")  
-	    public String deleteFileById(@PathVariable String fileId) {  
+	}
 
-         documentService.deleteFileById(fileId);	    
-         return JsonUtil.jsonFormatSuccess("");
-	    }  
-	    
-}  
+	@DeleteMapping("/{documentId}/file/{fileId}")
+	public String deleteFileById(@PathVariable String fileId) {
 
+		documentService.deleteFileById(fileId);
+		return JsonUtil.jsonFormatSuccess("");
+	}
+
+}
